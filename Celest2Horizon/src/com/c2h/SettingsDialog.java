@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 public class SettingsDialog extends Dialog implements android.view.View.OnClickListener {
     Button okButton;
+    Button cancelButton;
     Button buttonClearSync;
     
     String lat = "0 0.000";
@@ -22,14 +23,9 @@ public class SettingsDialog extends Dialog implements android.view.View.OnClickL
     String Dec= "0 0";
 
     EditText myLatitude;
-
     EditText myLongitude;
-       
-    EditText myRA;
-
-    EditText myDec;
-
-    EditText myAzOffset;
+    EditText editTextFilterAz;
+    EditText editTextFilterAlt;
     
     public SettingsDialog(Context context) {
         super(context);
@@ -42,12 +38,17 @@ public class SettingsDialog extends Dialog implements android.view.View.OnClickL
         okButton = (Button) findViewById(R.id.OkButton);
         okButton.setOnClickListener(this);
         
+        cancelButton = (Button) findViewById(R.id.CancelButton);
+        cancelButton.setOnClickListener(this);
+        
         buttonClearSync = (Button) findViewById(R.id.buttonClearSync);
         buttonClearSync.setOnClickListener(this);       
         
         Log.v("Debug", "Settings - getting lat/lon");
         myLatitude = (EditText) findViewById(R.id.Lat);
         myLongitude = (EditText) findViewById(R.id.Lon);
+        editTextFilterAz = (EditText) findViewById(R.id.editTextFilterAz);
+        editTextFilterAlt = (EditText) findViewById(R.id.editTextFilterAlt);
 
     }
  
@@ -55,20 +56,11 @@ public class SettingsDialog extends Dialog implements android.view.View.OnClickL
 
     	Log.v("Debug", "Init settings");
     	NumberFormat formatter = new DecimalFormat("0.000");
-    	    	
-        //String delims = "h";
-        //String[] ra_str = textRA.getText().toString().split(delims);
-        //delims = " ";
-        //String[] dec_str = textDEC.getText().toString().split(delims);
-        //String[] lat_str = myLatitude.getText().toString().split(delims);
-        //String[] lon_str = myLongitude.getText().toString().split(delims);
        
         myLatitude.setText(formatter.format(Globals.dLatitude));  //lat_str[0]);
         myLongitude.setText(formatter.format(Globals.dLongitude));
-        /*myRAHour.setText(ra_str[0]);
-        myRAMin.setText(ra_str[1]);
-        myDecDeg.setText(dec_str[0]);
-        myDecMin.setText(dec_str[1]);*/
+        editTextFilterAz.setText(formatter.format(Globals.dScaleHeading));
+        editTextFilterAlt.setText(formatter.format(Globals.dScalePitch));        	
     }
     
 	public void onClick(DialogInterface arg0, int arg1) {
@@ -79,16 +71,22 @@ public class SettingsDialog extends Dialog implements android.view.View.OnClickL
 	@Override
 	public void onClick(View v) {
         /** When OK Button is clicked, dismiss the dialog */
+		String str = String.format("Menu %d", v.getId());
+		Log.v("Debug", str);
+		
         if (v == okButton){
-				//textDEC.setText(myDecDeg.getText().toString()+" "+myDecMin.getText().toString());
-				//textRA.setText(myRAHour.getText().toString()+"h"+myRAMin.getText().toString());
-				//textAzimuthOffset.setText(myAzOffset.getText().toString());
-		        //myLatitude.setText(myLatitudeDeg.getText().toString()+" "+myLatitudeMin.getText().toString());
-		        //myLongitude.setText(myLongitudeDeg.getText().toString()+" "+myLongitudeMin.getText().toString());
-            dismiss();
+        	Globals.dLatitude = Double.valueOf(myLatitude.getText().toString());
+        	Globals.dLongitude = Double.valueOf(myLongitude.getText().toString());
+        	Globals.dScaleHeading = Double.valueOf(editTextFilterAz.getText().toString());
+        	Globals.dScalePitch = Double.valueOf(editTextFilterAlt.getText().toString());
+        	dismiss();
         }
         
-        if( v==buttonClearSync )
+        if (v == cancelButton){
+        	dismiss();
+        }
+        
+        if( v == buttonClearSync )
         {
         	Globals.dDobHeadingDelta = Globals.dDobPitchDelta = 0;
         }

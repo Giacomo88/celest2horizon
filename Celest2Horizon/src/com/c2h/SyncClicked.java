@@ -8,9 +8,11 @@ public class SyncClicked implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-    	Log.v("Debug", "Click click click");
     	Globals.dDobHeadingDelta = (Globals.dDobHeading - Globals.dTargetHeading);
     	Globals.dDobPitchDelta   = (Globals.dDobPitch - Globals.dTargetPitch);
+    	Log.v("Debug", "Syncing " + Globals.dDobHeading + "," + Globals.dTargetHeading);
+    	Log.v("Debug", "Delta " + Globals.dDobHeadingDelta);
+
     }
     
 }
