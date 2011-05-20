@@ -27,6 +27,9 @@
     <TextView android:layout_height="wrap_content" android:id="@+id/TextView04" android:layout_width="wrap_content" android:text="Azimuth"></TextView>
     <EditText android:layout_height="wrap_content" android:text="0" android:layout_width="wrap_content" android:editable="false" android:id="@+id/EditTextScopeAz"></EditText>
 </TableRow>
+<TableRow android:id="@+id/tableRow1" android:layout_height="wrap_content" android:layout_width="match_parent">
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/buttonSync" android:text="Sync"></Button>
+</TableRow>
 
 
 </LinearLayout>
