@@ -14,6 +14,8 @@ import android.widget.EditText;
 
 public class SettingsDialog extends Dialog implements android.view.View.OnClickListener {
     Button okButton;
+    Button buttonClearSync;
+    
     String lat = "0 0.000";
     String lon = "0 0.000";
     String RA = "0h00";
@@ -40,13 +42,12 @@ public class SettingsDialog extends Dialog implements android.view.View.OnClickL
         okButton = (Button) findViewById(R.id.OkButton);
         okButton.setOnClickListener(this);
         
+        buttonClearSync = (Button) findViewById(R.id.buttonClearSync);
+        buttonClearSync.setOnClickListener(this);       
+        
         Log.v("Debug", "Settings - getting lat/lon");
         myLatitude = (EditText) findViewById(R.id.Lat);
         myLongitude = (EditText) findViewById(R.id.Lon);
-
-        Log.v("Debug", "Settings - getting ra/dec");
-        myRA = (EditText) findViewById(R.id.RA);
-        myDec = (EditText) findViewById(R.id.Dec);
 
     }
  
@@ -85,7 +86,12 @@ public class SettingsDialog extends Dialog implements android.view.View.OnClickL
 		        //myLatitude.setText(myLatitudeDeg.getText().toString()+" "+myLatitudeMin.getText().toString());
 		        //myLongitude.setText(myLongitudeDeg.getText().toString()+" "+myLongitudeMin.getText().toString());
             dismiss();
-        }		
+        }
+        
+        if( v==buttonClearSync )
+        {
+        	Globals.dDobHeadingDelta = Globals.dDobPitchDelta = 0;
+        }
 	}
  
 }

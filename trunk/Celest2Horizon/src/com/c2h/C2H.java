@@ -51,7 +51,8 @@ public class C2H extends Activity {
     EditText textRA;
     EditText textDEC;
 
-        Button   ButtonGetLocation;
+        Button ButtonSync;
+        SyncClicked mySyncClicker;
         Spinner  spinner;
         Spinner  spinner_group;
         TextView objectName;
@@ -99,7 +100,19 @@ public class C2H extends Activity {
         textRA = (EditText) findViewById(R.id.EditTextRA);
         textDEC = (EditText) findViewById(R.id.EditTextDEC);
 
-        ButtonGetLocation = (Button)findViewById(R.id.Button01);
+        ButtonSync = (Button)findViewById(R.id.buttonSync);
+        mySyncClicker = new SyncClicked();
+        ButtonSync.setOnClickListener(mySyncClicker);
+
+        /*ButtonSync.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	Log.v("Debug", "Clicked");
+              finish();
+            }
+          });*/
+
+        
         objectName = (TextView)findViewById(R.id.TextView09);
                      
         counter = new MyCount(15000, 1000);
@@ -304,9 +317,9 @@ public class C2H extends Activity {
            txt = String.format("%.2f", hrz_azimuth);
            textAzimuth.setText(txt);
            
-           txt = String.format("%.2f", Globals.dDobPitch);
+           txt = String.format("%.2f", Globals.dDobPitch  - Globals.dDobPitchDelta);
            textScopeAltitude.setText(txt);
-           txt = String.format("%.2f", Globals.dDobHeading);
+           txt = String.format("%.2f", Globals.dDobHeading - Globals.dDobHeadingDelta);
            textScopeAzimuth.setText(txt);
         }
        
