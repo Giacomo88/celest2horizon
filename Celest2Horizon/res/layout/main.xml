@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<TextView android:text="@+id/TextView09" android:id="@+id/TextView09" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+<TableRow android:id="@+id/TableRow09" android:layout_width="wrap_content" android:layout_height="wrap_content"><Spinner android:id="@+id/Spinner02" android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner><Spinner android:id="@+id/Spinner01" android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
+</TableRow>
+
+<TableRow android:id="@+id/TableRow03" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <TextView android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Target -&gt; "></TextView>
+<TextView android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="RA"></TextView>
+<EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/EditTextRA" android:text="1h45.640" android:editable="false"></EditText>
+<TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dec"></TextView><EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/EditTextDEC" android:text="24 58.316" android:editable="false"></EditText></TableRow>
+<TableRow android:id="@+id/TableRow07" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <TextView android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Target -&gt; "></TextView>
+<TextView android:id="@+id/TextView07" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Altitude"></TextView>
+<EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:id="@+id/EditTextAlt" android:editable="false"></EditText>
+<TextView android:id="@+id/TextView08" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Azimuth"></TextView>
+<EditText android:layout_height="wrap_content" android:text="0" android:layout_width="wrap_content" android:id="@+id/EditTextAz" android:editable="false"></EditText>
+</TableRow>
+<TableRow android:id="@+id/TableRow01" android:layout_height="wrap_content" android:layout_width="wrap_content">
+    <TextView android:layout_height="wrap_content" android:id="@+id/TextView01" android:layout_width="wrap_content" android:text="Scope -&gt; "></TextView>
+    <TextView android:layout_height="wrap_content" android:id="@+id/TextView05" android:layout_width="wrap_content" android:text="Altitude"></TextView>
+    <EditText android:layout_height="wrap_content" android:text="0" android:layout_width="wrap_content" android:editable="false" android:id="@+id/EditTextScopeAlt"></EditText>
+    <TextView android:layout_height="wrap_content" android:id="@+id/TextView04" android:layout_width="wrap_content" android:text="Azimuth"></TextView>
+    <EditText android:layout_height="wrap_content" android:text="0" android:layout_width="wrap_content" android:editable="false" android:id="@+id/EditTextScopeAz"></EditText>
+</TableRow>
+
+
+</LinearLayout>
