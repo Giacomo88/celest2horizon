@@ -51,15 +51,15 @@ public class C2H extends Activity {
     EditText textRA;
     EditText textDEC;
 
-        Button ButtonSync;
-        SyncClicked mySyncClicker;
-        Spinner  spinner;
-        Spinner  spinner_group;
-        TextView objectName;
+    Button ButtonSync;
+    SyncClicked mySyncClicker;
+    Spinner  spinner;
+    Spinner  spinner_group;
+    TextView objectName;
 
-        MyLocationListener thisLocation;
-        DobOrientation thisDob;
-        MyCount counter;
+    MyLocationListener thisLocation;
+    DobOrientation thisDob;
+    MyCount counter;
         
     protected int mPos;
     protected String mSelection;
@@ -86,8 +86,9 @@ public class C2H extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        Globals.myContext = this;
+        
         thisLocation = new MyLocationListener(this);
- 
         thisDob = new DobOrientation(this);
 
         //textSiderealTime = (EditText) findViewById(R.id.EditTextTimeSidereal);
@@ -104,19 +105,11 @@ public class C2H extends Activity {
         mySyncClicker = new SyncClicked();
         ButtonSync.setOnClickListener(mySyncClicker);
 
-        /*ButtonSync.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            	Log.v("Debug", "Clicked");
-              finish();
-            }
-          });*/
-
+        //Globals.dScaleHeading = savedInstanceState.getDouble("ScaleHeading");
         
         objectName = (TextView)findViewById(R.id.TextView09);
                      
         counter = new MyCount(15000, 1000);
-         
         counter.start();
        
         spinner_group= (Spinner) findViewById(R.id.Spinner02);
@@ -140,16 +133,9 @@ public class C2H extends Activity {
         myStars = new Stars();
         objectSet = 0;
        
-        Log.v("Debug", "Making strings");
-       
-        //String sra = myMessiers.GetRA(0);
-        Log.v("Debug", "Got ra");
-       
         String[] someStrings;//= new String[110];
-        Log.v("Debug", "Getting strings");
        
         someStrings = myMessiers.GetStrings();
-        Log.v("Debug", "Got strings");
        
         adapterMessier = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, someStrings);
         adapterMessier.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -163,24 +149,24 @@ public class C2H extends Activity {
        
         String[] someStars = myStars.GetStrings();       
         adapterStars = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, someStars);
-     
-        Log.v("Debug", "Oncreate");
-        String str = String.format("Selected %d", globalPos);
-        Log.v("Debug", str);
     }
 
-    protected void onResume() {
+    @Override
+	protected void onResume() {
         super.onResume();
     	Log.v("Debugging", "C2H - On resume");
     	counter.bRunning = true;
     	thisDob.onResume();
+    	Globals.OnResume();
     }
 
-    protected void onPause() {
+    @Override
+	protected void onPause() {
         super.onPause();
     	Log.v("Debugging", "C2H - On pause");
     	counter.bRunning = false;
     	thisDob.onPause();
+    	Globals.OnPause();
     }
     
     @Override
@@ -269,8 +255,6 @@ public class C2H extends Activity {
 			Log.v("Debug", "Settings dialog - creating");
 			SettingsDialog mySettingsBox = new SettingsDialog(this);
 			Log.v("Debug", "Settings dialog completed");
-			//mySettingsBox.textDEC = textDEC;
-			//mySettingsBox.textRA  = textRA;
 			
 			mySettingsBox.Init();
 			mySettingsBox.show();
@@ -290,14 +274,16 @@ public class C2H extends Activity {
           bRunning = true;
         }
 
-        public void onFinish() {
+        @Override
+		public void onFinish() {
         	if( bRunning ) {
             	Log.v("Debug", "restarting clock");
         		start();
         	}
         }
        
-        public void onTick(long millisUntilFinished) {
+        @Override
+		public void onTick(long millisUntilFinished) {
 //         GetLocation();
         	//Log.v("Debug", "Tick...");
         	
@@ -316,6 +302,8 @@ public class C2H extends Activity {
            textAltitude.setText(txt);
            txt = String.format("%.2f", hrz_azimuth);
            textAzimuth.setText(txt);
+           Globals.dTargetHeading = hrz_azimuth;
+           Globals.dTargetPitch = hrz_altitude;
            
            txt = String.format("%.2f", Globals.dDobPitch  - Globals.dDobPitchDelta);
            textScopeAltitude.setText(txt);
