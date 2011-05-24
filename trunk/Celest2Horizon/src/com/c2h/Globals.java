@@ -24,8 +24,8 @@ public class Globals {
     
     static public void OnResume() {
         SharedPreferences settings = myContext.getSharedPreferences("Celest2Horizon", 0);
-        dScaleHeading = settings.getFloat("ScaleHeading", (float) 0.999);        
-        dScalePitch = settings.getFloat("ScalePitch", (float) 0.999);
+        dScaleHeading = settings.getFloat("ScaleHeading", (float) 0.99);        
+        dScalePitch = settings.getFloat("ScalePitch", (float) 0.99);
         dDobHeadingDelta = settings.getFloat("DobHeadingDelta", (float) 0);
         dDobPitchDelta = settings.getFloat("DobPitchDelta", (float) 0);
     }

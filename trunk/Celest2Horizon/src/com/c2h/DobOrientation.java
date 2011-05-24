@@ -24,6 +24,7 @@ public class DobOrientation implements SensorEventListener {
 		double[] dHdg;
 		double[] dPitch;
 		int nIndex;
+		int nCountDown;
 		
 		boolean sensorReady = false;
 		
@@ -33,6 +34,7 @@ public class DobOrientation implements SensorEventListener {
 	    	for(int i=0; i<100; i++)
 	    		dHdg[i] = dPitch[i] = 0.;
 	    	nIndex = 0;
+	    	nCountDown = 100;
 	    	
 			mSensorManager = (SensorManager)thisContect.getSystemService("sensor");
 			mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -119,13 +121,19 @@ public class DobOrientation implements SensorEventListener {
 	        
 	        double dScale = Globals.dScaleHeading;
 	        if( Math.abs(Globals.dDobHeading - actual_orientation[0])>5 )
+	        	nCountDown = 100;
+	        
+	        if( nCountDown>0 )
 	        	dScale = 0.8;
 	        
 	        Globals.dDobHeading = Globals.dDobHeading * dScale + actual_orientation[0] * (1-dScale);//dHdgSum / 100.;
 	        
 	        dScale = Globals.dScalePitch;
 	        if( Math.abs(Globals.dDobPitch - actual_orientation[1])>5 )
-	        	dScale = 0.8;
+	        	nCountDown = 100;
+	        
+	        if( nCountDown>0 )
+	        	dScale = 0.8;                        	        
 	        
 	        Globals.dDobPitch   = Globals.dDobPitch * dScale + actual_orientation[1] * (1-dScale);//dPitchSum / 100.;
 	        
@@ -135,6 +143,9 @@ public class DobOrientation implements SensorEventListener {
 	        if( Globals.dDobHeading < 0 )
 	        	Globals.dDobHeading += 360;
 	        
+	        nCountDown--;
+	        if( nCountDown < 0 )
+	        	nCountDown = 0;
 	       // Log.d("Debug", "Orientation (" + actual_orientation[0] + ", " + actual_orientation[1] + ", " + actual_orientation[2] + ")");
 	    }
 
