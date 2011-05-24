@@ -30,14 +30,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.os.CountDownTimer;
+
+import java.io.FileNotFoundException;
 import java.util.*;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
-
 import android.content.Context;
 import android.content.DialogInterface;
-
 import java.util.Calendar;
 import android.util.Log;
 
@@ -60,12 +60,14 @@ public class C2H extends Activity {
     MyLocationListener thisLocation;
     DobOrientation thisDob;
     MyCount counter;
-        
+  
     protected int mPos;
     protected String mSelection;
         Messier myMessiers;
         Stars myStars;
         Planets myPlanets;
+        UserObjects myObjects;
+        
         int     objectSet;
         double mst_time;
        
@@ -77,6 +79,7 @@ public class C2H extends Activity {
         ArrayAdapter<String> adapterMessier;
         ArrayAdapter<String> adapterStars;
         ArrayAdapter<String> adapterPlanets;
+        ArrayAdapter<String> adapterUserObjects;
         ArrayAdapter<String> adapterGroups;
        
         int globalPos = 0;
@@ -113,10 +116,11 @@ public class C2H extends Activity {
         counter.start();
        
         spinner_group= (Spinner) findViewById(R.id.Spinner02);
-        String myGroups[] = new String[3];
+        String myGroups[] = new String[4];
         myGroups[0] = "Messier";
         myGroups[1] = "Planets";
         myGroups[2] = "Stars";
+        myGroups[3] = "User";
        
 //        adapterGroups = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myGroups);
         adapterGroups = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, myGroups);
@@ -131,6 +135,13 @@ public class C2H extends Activity {
         myMessiers = new Messier();
         myPlanets = new Planets();
         myStars = new Stars();
+        try {
+			myObjects = new UserObjects();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
         objectSet = 0;
        
         String[] someStrings;//= new String[110];
@@ -149,6 +160,11 @@ public class C2H extends Activity {
        
         String[] someStars = myStars.GetStrings();       
         adapterStars = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someStars);
+
+        Log.v("Debug", "Getting obj strings");
+        String[] someObjs = myObjects.GetStrings();       
+        adapterUserObjects = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someObjs);
+
     }
 
     @Override
@@ -526,6 +542,13 @@ public class C2H extends Activity {
 	                        spinner.setAdapter(adapterStars);
 	                        objectSet = 2;
                         }       
+
+                        if( pos == 3 ){
+                        	adapterUserObjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	                        spinner.setAdapter(adapterUserObjects);
+	                        objectSet = 2;
+                        }       
+
                 }
         }
 
