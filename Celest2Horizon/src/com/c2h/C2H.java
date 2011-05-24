@@ -118,8 +118,8 @@ public class C2H extends Activity {
         myGroups[1] = "Planets";
         myGroups[2] = "Stars";
        
-        adapterGroups = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myGroups);
-        
+//        adapterGroups = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myGroups);
+        adapterGroups = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, myGroups);
         adapterGroups.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_group.setAdapter(adapterGroups);
 
@@ -137,7 +137,7 @@ public class C2H extends Activity {
        
         someStrings = myMessiers.GetStrings();
        
-        adapterMessier = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, someStrings);
+        adapterMessier = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someStrings);
         adapterMessier.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterMessier);
 
@@ -145,10 +145,10 @@ public class C2H extends Activity {
         spinner.setOnItemSelectedListener(spinnerListener);
        
         String[] somePlanets = myPlanets.GetStrings();       
-        adapterPlanets = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, somePlanets);
+        adapterPlanets = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, somePlanets);
        
         String[] someStars = myStars.GetStrings();       
-        adapterStars = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, someStars);
+        adapterStars = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someStars);
     }
 
     @Override
