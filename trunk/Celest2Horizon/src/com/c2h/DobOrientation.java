@@ -40,20 +40,19 @@ public class DobOrientation implements SensorEventListener {
 			
 	        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 	        mSensorManager.registerListener(this, mMagneticField, SensorManager.SENSOR_DELAY_NORMAL);
-			
-	        Log.v("Debug", "Orientation created");
+	       // Log.v("Debug", "Orientation created");
 	    }
 
 	    public void onResume() {
 	        //super.onResume();
-	    	Log.v("Debugging", "DOB - On resume");
+	    	//Log.v("Debugging", "DOB - On resume");
 	        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 	        mSensorManager.registerListener(this, mMagneticField, SensorManager.SENSOR_DELAY_NORMAL);
 	    }
 
 	    public void onPause() {
 	       // super.onPause();
-	    	Log.v("Debugging", "DOB - On pause");
+	    	//Log.v("Debugging", "DOB - On pause");
 	        mSensorManager.unregisterListener(this);
 	    }
 	    
@@ -118,13 +117,13 @@ public class DobOrientation implements SensorEventListener {
 	        if( Globals.dDobHeading - actual_orientation[0] < -180 )
 	        	actual_orientation[0] -= 360;
 	        
-	        double dScale = 0.997;
+	        double dScale = Globals.dScaleHeading;
 	        if( Math.abs(Globals.dDobHeading - actual_orientation[0])>5 )
 	        	dScale = 0.8;
 	        
 	        Globals.dDobHeading = Globals.dDobHeading * dScale + actual_orientation[0] * (1-dScale);//dHdgSum / 100.;
 	        
-	        dScale = 0.997;
+	        dScale = Globals.dScalePitch;
 	        if( Math.abs(Globals.dDobPitch - actual_orientation[1])>5 )
 	        	dScale = 0.8;
 	        
