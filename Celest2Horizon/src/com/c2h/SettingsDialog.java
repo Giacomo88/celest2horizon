@@ -26,6 +26,7 @@ public class SettingsDialog extends Dialog implements android.view.View.OnClickL
     EditText myLongitude;
     EditText editTextFilterAz;
     EditText editTextFilterAlt;
+    EditText editTextUserObjs;
     
     public SettingsDialog(Context context) {
         super(context);
@@ -49,7 +50,7 @@ public class SettingsDialog extends Dialog implements android.view.View.OnClickL
         myLongitude = (EditText) findViewById(R.id.Lon);
         editTextFilterAz = (EditText) findViewById(R.id.editTextFilterAz);
         editTextFilterAlt = (EditText) findViewById(R.id.editTextFilterAlt);
-
+        editTextUserObjs = (EditText) findViewById(R.id.editTextUserObjs);
     }
  
     public void Init(){
@@ -60,7 +61,8 @@ public class SettingsDialog extends Dialog implements android.view.View.OnClickL
         myLatitude.setText(formatter.format(Globals.dLatitude));  //lat_str[0]);
         myLongitude.setText(formatter.format(Globals.dLongitude));
         editTextFilterAz.setText(formatter.format(Globals.dScaleHeading));
-        editTextFilterAlt.setText(formatter.format(Globals.dScalePitch));        	
+        editTextFilterAlt.setText(formatter.format(Globals.dScalePitch));  
+        editTextUserObjs.setText(Globals.strUserPath);
     }
     
 	public void onClick(DialogInterface arg0, int arg1) {
@@ -79,6 +81,7 @@ public class SettingsDialog extends Dialog implements android.view.View.OnClickL
         	Globals.dLongitude = Double.valueOf(myLongitude.getText().toString());
         	Globals.dScaleHeading = Double.valueOf(editTextFilterAz.getText().toString());
         	Globals.dScalePitch = Double.valueOf(editTextFilterAlt.getText().toString());
+        	Globals.strUserPath = editTextUserObjs.getText().toString();
         	dismiss();
         }
         
