@@ -135,10 +135,11 @@ public class C2H extends Activity {
         myMessiers = new Messier();
         myPlanets = new Planets();
         myStars = new Stars();
+
         try {
 			myObjects = new UserObjects();
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
+			Log.v("Debug", "File not found");
 			e1.printStackTrace();
 		}
         
@@ -162,9 +163,21 @@ public class C2H extends Activity {
         adapterStars = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someStars);
 
         Log.v("Debug", "Getting obj strings");
-        String[] someObjs = myObjects.GetStrings();       
-        adapterUserObjects = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someObjs);
-
+        String[] someObjs;
+        if( myObjects != null )
+        {
+	        someObjs = myObjects.GetStrings();
+        }
+        else
+        {
+        	someObjs = new String[1];
+        	someObjs[0] = ("No user objects defined");
+        }
+	        Log.v("Debug", "Got obj strings");
+	        if( someObjs != null )
+	        	adapterUserObjects = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someObjs);
+        
+        Log.v("Debug", "On create finished");
     }
 
     @Override
@@ -519,6 +532,20 @@ public class C2H extends Activity {
                             objectName.setText(myStars.GetName(pos));                    
                         }
                         
+                        if( objectSet==3 ){
+                        	if( myObjects == null )
+                        	{
+	                            textRA.setText("0h0");
+	                            textDEC.setText("0");
+	                            objectName.setText("None");                             		
+                        	}
+                        	else
+                        	{
+	                            textRA.setText(myObjects.GetRA(pos));
+	                            textDEC.setText(myObjects.GetDEC(pos));
+	                            objectName.setText(myObjects.GetName(pos));     
+                        	}
+                        }
                 }
                
                 if( parent==spinner_group ){
@@ -546,9 +573,8 @@ public class C2H extends Activity {
                         if( pos == 3 ){
                         	adapterUserObjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	                        spinner.setAdapter(adapterUserObjects);
-	                        objectSet = 2;
+	                        objectSet = 3;
                         }       
-
                 }
         }
 

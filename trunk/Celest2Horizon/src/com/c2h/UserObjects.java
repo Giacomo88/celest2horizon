@@ -4,10 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.StringTokenizer;
-
-import com.c2h.Messier.MyDataStruct;
-
 import android.util.Log;
 
 public class UserObjects {
@@ -42,26 +38,29 @@ public class UserObjects {
 	
 	public UserObjects() throws FileNotFoundException {
 			
-		Log.v("Debug", "Creating userobjects");
 		MyObjects = new MyDataStruct[1];
-		
-		String strFile = "//sdcard//Celest2Horizon//UserObjects.csv";
+
+		Globals.GetPath();
+		String strFile = Globals.strUserPath;
+		Log.v("Debug", "Creating userobjects from ("+strFile+")");
 		
 		//create BufferedReader to read csv file
 		BufferedReader br = new BufferedReader( new FileReader(strFile));
 		String strLine = "";
-
+		Log.v("Debug", "File opened ("+strFile+")");
 		NumberLines = 0;		
 		//read comma separated file line by line
 		try {
+			//Log.v("Debug", "Reading line " + NumberLines);
 			while( (strLine = br.readLine()) != null) {
 				NumberLines++;
+				//Log.v("Debug", "Parsing line");
 				String entries[] = strLine.split(",", 5);
-				
+				//Log.v("Debug", "Creating user object");
 				MyObjects[0] = new MyDataStruct(entries);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Log.v("Debug", "Error (1) reading user file");
 			e.printStackTrace();
 		}
 		
@@ -70,7 +69,7 @@ public class UserObjects {
 		try {
 			br.close();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			Log.v("Debug", "Error closing user file");
 			e1.printStackTrace();
 		}
 		br = new BufferedReader( new FileReader(strFile));
@@ -90,7 +89,7 @@ public class UserObjects {
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Log.v("Debug", "Error (2) reading user file");
 			e.printStackTrace();
 		}
 		Log.v("Debug", "MyObect count " + NumberLines);
@@ -107,9 +106,12 @@ public class UserObjects {
 		   return newArray; 
 	}
 	
-	String[] GetStrings()
+	public String[] GetStrings()
 	{
         Log.v("Debug", "My Objects: Getting strings");
+        if( MyObjects.length < 1 )
+        	return null;
+        
 		String ret[] = new String[MyObjects.length];
 		for(int i=0; i<MyObjects.length; i++)
 			ret[i] = MyObjects[i].ID+" ("+MyObjects[i].Magnitude+")";
@@ -131,4 +133,4 @@ public class UserObjects {
 		return(MyObjects[pos].Description);
 	}
 }
- 
+
