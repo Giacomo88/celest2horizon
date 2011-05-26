@@ -20,6 +20,7 @@ package com.c2h;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,7 +41,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import java.util.Calendar;
-import android.util.Log;
 
 public class C2H extends Activity {
 
