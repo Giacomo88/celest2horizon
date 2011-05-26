@@ -106,8 +106,7 @@ public class UserObjects {
 		   return newArray; 
 	}
 	
-	public String[] GetStrings()
-	{
+	public String[] GetStrings() {
         Log.v("Debug", "My Objects: Getting strings");
         if( MyObjects.length < 1 )
         	return null;

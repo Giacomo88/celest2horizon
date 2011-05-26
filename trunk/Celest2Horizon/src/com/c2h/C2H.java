@@ -38,12 +38,15 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import java.util.Calendar;
 import android.util.Log;
 
 public class C2H extends Activity {
 
-    EditText textAltitude;
+	public static final int REQUEST_SAVE = 0;
+	private static final int REQUEST_LOAD = 0;
+	EditText textAltitude;
     EditText textAzimuth;
     EditText textScopeAltitude;
     EditText textScopeAzimuth;
@@ -212,68 +215,6 @@ public class C2H extends Activity {
 		String str = String.format("Menu %d", item.getItemId());
 		Log.v("Debug", str);
 		switch (item.getItemId()) {
-		
-		//case R.id.item01:
-			/*
-			adapterMessier.sort(new Comparator<String>() {
-				public int compare(String object1, String object2) {
-					return object1.compareTo(object2);
-				};
-			}
-			);
-			
-			adapterStars.sort(new Comparator<String>() {
-				public int compare(String object1, String object2) {
-					return object1.compareTo(object2);
-				};
-			}
-			);*/
-			
-			//break;	
-			
-		//case R.id.item02:
-			/*adapterMessier.sort(new Comparator<String>() {
-				public int compare(String object1, String object2) {
-					return object2.compareTo(object1);
-				};
-			});
-			
-			adapterStars.sort(new Comparator<String>() {
-				public int compare(String object1, String object2) {
-					return object2.compareTo(object1);
-				};
-			});*/
-
-			//break;
-			
-		// We have two menu options
-		/*case R.id.SetAZOffset:
-			
-			AlertDialog.Builder alert = new AlertDialog.Builder(this);  
-			  
-			alert.setTitle("Azimuth offset");  
-			alert.setMessage("Enter azimuth offset in degrees");  
-			 
-			// Set an EditText view to get user input   
-			final EditText input = new EditText(this);  
-			alert.setView(input);  
-			  
-			alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {  
-			public void onClick(DialogInterface dialog, int whichButton) {  
-			  String value = "Get new offset "+ input.getText().toString();  
-			  Log.v("C2HDebugging", value);
-			  textAzimuthOffset.setText(input.getText().toString());
-			  }  
-			});  
-			  
-			alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {  
-			  public void onClick(DialogInterface dialog, int whichButton) {  
-				  Log.v("C2HDebugging", "Get new offset cancelled");   
-			  }  
-			});  
-			  
-			alert.show();  
-			break;*/
 			
 		case R.id.About:
 			AboutDialog myAboutBox = new AboutDialog(this);
@@ -290,10 +231,46 @@ public class C2H extends Activity {
 			Log.v("Debug", "Settings shown");
 			break;
 
+		case R.id.user:
+//			Log.v("Debug", "Starting file dialog");
+			//Intent intent = new Intent(/*getBaseContext()*/C2H.this, FileDialog.class);
+//			Log.v("Debug", "Starting file dialog put extra");
+			//intent.putExtra(FileDialog.START_PATH, "/sdcard");
+//			Log.v("Debug", "Starting file dialog start activity");
+			//startActivityForResult(intent, REQUEST_SAVE);
+//			Log.v("Debug", "Starting file dialog done");
+			
+    		Intent fileIntent = new Intent(C2H.this,FileDialog.class);
+			fileIntent.putExtra(FileDialog.START_PATH, "/sdcard");
+    		startActivityForResult(fileIntent, REQUEST_SAVE);
+			break;
 		}
 		return true;
 	}
   
+    public synchronized void onActivityResult(final int requestCode,
+            int resultCode, final Intent data) {
+
+            if (resultCode == Activity.RESULT_OK) {
+
+                    if (requestCode == REQUEST_SAVE) {
+                            Log.v("FD", "Saving...");
+                    } else if (requestCode == REQUEST_LOAD) {
+                    	Log.v("FD", "Loading...");
+                    }
+                    
+                    String filePath = data.getStringExtra(FileDialog.RESULT_PATH);
+                    Log.v("FD", "File "+filePath);
+                    Globals.strUserPath = filePath;
+                    
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+            	Log.v("FD", "Request cancelled");
+                    //Logger.getLogger(AccelerationChartRun.class.getName()).log(
+                    //                Level.WARNING, "file not selected");
+            }
+
+    }
+    
     public class MyCount extends CountDownTimer {
         
     	Boolean bRunning;
