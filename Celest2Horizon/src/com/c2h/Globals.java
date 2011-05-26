@@ -26,7 +26,7 @@ public class Globals {
     
     static public void GetPath() {
         SharedPreferences settings = myContext.getSharedPreferences("Celest2Horizon", 0);
-        strUserPath = settings.getString("UserObjPath", "//sdcard//Celest2Horizon//UserObjects.csv");    	
+        strUserPath = settings.getString("UserObjPath", "/sdcard/Celest2Horizon/UserObjects.csv");    	
     }
     
     static public void OnResume() {
