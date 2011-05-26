@@ -9,11 +9,13 @@ import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class SettingsDialog extends Dialog implements android.view.View.OnClickListener {
-    Button okButton;
+//public class SettingsDialog extends Dialog implements android.view.View.OnClickListener {
+public class SettingsDialog extends Dialog implements OnClickListener {
+	Button okButton;
     Button cancelButton;
     Button buttonClearSync;
     
