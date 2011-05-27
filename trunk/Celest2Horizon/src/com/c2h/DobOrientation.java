@@ -1,12 +1,10 @@
 package com.c2h;
 
-
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
 import android.widget.EditText;
 import java.lang.Math;
 
@@ -17,24 +15,24 @@ public class DobOrientation implements SensorEventListener {
 		EditText txtHeading;
 		EditText txtPitch;
 		SensorManager mSensorManager;
-		
+
 	    float[] accelerometerValues = null;
 		float[] geomagneticMatrix = null;
-		double[] dHdg;
-		double[] dPitch;
-		int nIndex;
+		//double[] dHdg;
+		//double[] dPitch;
+		//int nIndex;
 		int nCountDown;
 		
 		boolean sensorReady = false;
 		
 	    public DobOrientation(Context thisContect) {
-	    	dHdg = new double[100];
-	    	dPitch = new double[100];
-	    	for(int i=0; i<100; i++)
-	    		dHdg[i] = dPitch[i] = 0.;
-	    	nIndex = 0;
+	    	//dHdg = new double[100];
+	    	//dPitch = new double[100];
+	    	//for(int i=0; i<100; i++)
+	    	//	dHdg[i] = dPitch[i] = 0.;
+	    	//nIndex = 0;
 	    	nCountDown = 100;
-	    	
+			 
 			mSensorManager = (SensorManager)thisContect.getSystemService("sensor");
 			mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 			mMagneticField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -47,6 +45,7 @@ public class DobOrientation implements SensorEventListener {
 	    public void onResume() {
 	        //super.onResume();
 	    	//Log.v("Debugging", "DOB - On resume");
+
 	        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 	        mSensorManager.registerListener(this, mMagneticField, SensorManager.SENSOR_DELAY_NORMAL);
 	    }
@@ -55,6 +54,7 @@ public class DobOrientation implements SensorEventListener {
 	       // super.onPause();
 	    	//Log.v("Debugging", "DOB - On pause");
 	        mSensorManager.unregisterListener(this);
+
 	    }
 	    
 	    public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -97,7 +97,7 @@ public class DobOrientation implements SensorEventListener {
 	        
 	        actual_orientation[1] = -actual_orientation[1];
 	        
-	        dHdg[nIndex] = actual_orientation[0];
+	       /* dHdg[nIndex] = actual_orientation[0];
 	        dPitch[nIndex] = actual_orientation[1];
 	        nIndex++;
 	        if( nIndex>99 )
@@ -110,7 +110,7 @@ public class DobOrientation implements SensorEventListener {
 	        {
 	        	dHdgSum += dHdg[i];
 	        	dPitchSum += dPitch[i];
-	        }
+	        }*/
 	        
 	        if( Globals.dDobHeading - actual_orientation[0] > 180 )
 	        	actual_orientation[0] += 360;
@@ -118,6 +118,8 @@ public class DobOrientation implements SensorEventListener {
 	        if( Globals.dDobHeading - actual_orientation[0] < -180 )
 	        	actual_orientation[0] -= 360;
 	        
+	        //out.println("Hdg " + actual_orientation[0] + "\n");
+
 	        double dScale = Globals.dScaleHeading;
 	        if( Math.abs(Globals.dDobHeading - actual_orientation[0])>5 )
 	        	nCountDown = 100;
