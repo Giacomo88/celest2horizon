@@ -11,8 +11,8 @@ public class Stats {
 	int nCount;
 	
 	public Stats() {
-		dValues = new double[100];
-		nCount = 20;
+		nCount = 50;
+		dValues = new double[nCount];
 		
 		Reset();
 	}

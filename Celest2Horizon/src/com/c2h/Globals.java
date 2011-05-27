@@ -51,5 +51,4 @@ public class Globals {
         editor.putString("UserObjPath", strUserPath);
         editor.commit();
     }
-
 }
