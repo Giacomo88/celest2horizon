@@ -22,6 +22,9 @@ public class Globals {
     static double dScaleHeading = 0;
     static double dScalePitch = 0;
     
+    static double dAverage;
+    static double dSigma;
+    
     static String strUserPath = null;
     
     static public void GetPath() {

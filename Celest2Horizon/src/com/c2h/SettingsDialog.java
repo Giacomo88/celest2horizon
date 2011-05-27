@@ -30,6 +30,9 @@ public class SettingsDialog extends Dialog implements OnClickListener {
     EditText editTextFilterAlt;
     EditText editTextUserObjs;
     
+    EditText statAverage;
+    EditText statSigma;
+    
     public SettingsDialog(Context context) {
         super(context);
         /** 'Window.FEATURE_NO_TITLE' - Used to hide the title */
@@ -53,6 +56,9 @@ public class SettingsDialog extends Dialog implements OnClickListener {
         editTextFilterAz = (EditText) findViewById(R.id.editTextFilterAz);
         editTextFilterAlt = (EditText) findViewById(R.id.editTextFilterAlt);
         editTextUserObjs = (EditText) findViewById(R.id.editTextUserObjs);
+        
+        statAverage = (EditText) findViewById(R.id.editTextAverage);
+        statSigma = (EditText) findViewById(R.id.editTextSigma);
     }
  
     public void Init(){
@@ -65,6 +71,8 @@ public class SettingsDialog extends Dialog implements OnClickListener {
         editTextFilterAz.setText(formatter.format(Globals.dScaleHeading));
         editTextFilterAlt.setText(formatter.format(Globals.dScalePitch));  
         editTextUserObjs.setText(Globals.strUserPath);
+        statAverage.setText(formatter.format(Globals.dAverage));
+        statSigma.setText(formatter.format(Globals.dSigma));        
     }
     
 	public void onClick(DialogInterface arg0, int arg1) {

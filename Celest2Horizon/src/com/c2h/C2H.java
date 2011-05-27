@@ -63,7 +63,8 @@ public class C2H extends Activity {
     MyLocationListener thisLocation;
     DobOrientation thisDob;
     MyCount counter;
-  
+    Stats myStats;
+    
     protected int mPos;
     protected String mSelection;
         Messier myMessiers;
@@ -93,6 +94,7 @@ public class C2H extends Activity {
         setContentView(R.layout.main);
 
         Globals.myContext = this;
+        myStats = new Stats();
         
         thisLocation = new MyLocationListener(this);
         thisDob = new DobOrientation(this);
@@ -274,7 +276,7 @@ public class C2H extends Activity {
     public class MyCount extends CountDownTimer {
         
     	Boolean bRunning;
-    	
+
     	public MyCount(long millisInFuture, long countDownInterval) {
           super(millisInFuture, countDownInterval);
           bRunning = true;
@@ -315,6 +317,8 @@ public class C2H extends Activity {
            textScopeAltitude.setText(txt);
            txt = String.format("%.2f", Globals.dDobHeading - Globals.dDobHeadingDelta);
            textScopeAzimuth.setText(txt);
+           
+           //myStats.Add(Globals.dDobPitch);
         }
        
      // convert right ascension (hours, minutes) to degrees as real
