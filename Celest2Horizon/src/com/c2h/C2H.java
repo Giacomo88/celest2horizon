@@ -31,7 +31,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.os.CountDownTimer;
-
 import java.io.FileNotFoundException;
 import java.util.*;
 import android.widget.ArrayAdapter;
@@ -42,6 +41,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import java.util.Calendar;
 
+/* http://code.google.com/p/android-file-dialog/ */
 import com.lamerman.FileDialog;
 
 public class C2H extends Activity {
