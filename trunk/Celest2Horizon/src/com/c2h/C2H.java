@@ -42,6 +42,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import java.util.Calendar;
 
+import com.lamerman.FileDialog;
+
 public class C2H extends Activity {
 
 	public static final int REQUEST_SAVE = 0;
@@ -240,11 +242,14 @@ public class C2H extends Activity {
 			//intent.putExtra(FileDialog.START_PATH, "/sdcard");
 //			Log.v("Debug", "Starting file dialog start activity");
 			//startActivityForResult(intent, REQUEST_SAVE);
-//			Log.v("Debug", "Starting file dialog done");
+			Log.v("Debug", "Starting file dialog done");
 			
-    		Intent fileIntent = new Intent(C2H.this,FileDialog.class);
+    		Intent fileIntent = new Intent(C2H.this, FileDialog.class);
+			Log.v("Debug", "FD - put extra");
 			fileIntent.putExtra(FileDialog.START_PATH, "/sdcard");
+			Log.v("Debug", "FD - start activity");
     		startActivityForResult(fileIntent, REQUEST_SAVE);
+			Log.v("Debug", "Starting file dialog done");
 			break;
 		}
 		return true;
