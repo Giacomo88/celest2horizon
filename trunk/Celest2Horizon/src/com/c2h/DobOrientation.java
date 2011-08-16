@@ -131,12 +131,12 @@ public class DobOrientation implements SensorEventListener {
 	        
 	        dScale = Globals.dScalePitch;
 	        if( Math.abs(Globals.dDobPitch - actual_orientation[1])>5 )
-	        	nCountDown = 100;
+	        	nCountDown = 10;
 	        
 	        if( nCountDown>0 )
 	        	dScale = 0.8;                        	        
 	        
-	        Globals.dDobPitch   = Globals.dDobPitch * dScale + actual_orientation[1] * (1-dScale);//dPitchSum / 100.;
+	        Globals.dDobPitch = Globals.dDobPitch * dScale + actual_orientation[1] * (1-dScale);//dPitchSum / 100.;
 	        
 	        if( Globals.dDobHeading > 360 )
 	        	Globals.dDobHeading -= 360;
