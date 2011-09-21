@@ -21,22 +21,6 @@ import android.util.Log;
 
 public class Messier{
 	
-	public class MyDataStruct{
-		String ID;
-		String RA;
-		String DEC;
-		String Description;
-		String Magnitude;
-		
-		public MyDataStruct(String s1, String s2, String s3, String s4, String s5){
-			ID=s1; 
-			RA=s2;
-			DEC=s3;
-			Description=s4;
-			Magnitude=s5;
-		}
-	}
-	
 	MyDataStruct myMessier[];
 	
 	public Messier(){
