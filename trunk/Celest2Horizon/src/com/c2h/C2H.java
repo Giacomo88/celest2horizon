@@ -26,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.Spinner;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +45,7 @@ import java.util.Calendar;
 /* http://code.google.com/p/android-file-dialog/ */
 import com.lamerman.FileDialog;
 
-public class C2H extends Activity {
+public class C2H extends Activity implements OnClickListener {
 
 	public static final int REQUEST_SAVE = 0;
 	private static final int REQUEST_LOAD = 0;
@@ -57,6 +58,9 @@ public class C2H extends Activity {
     EditText textDEC;
 
     Button ButtonSync;
+    Button ButtonMakeClosest;
+    Button ButtonSkyView;
+    
     SyncClicked mySyncClicker;
     Spinner  spinner;
     Spinner  spinner_group;
@@ -73,6 +77,7 @@ public class C2H extends Activity {
         Stars myStars;
         Planets myPlanets;
         UserObjects myObjects;
+        ClosestObjs myClosestObjs;
         
         int     objectSet;
         double mst_time;
@@ -86,6 +91,7 @@ public class C2H extends Activity {
         ArrayAdapter<String> adapterStars;
         ArrayAdapter<String> adapterPlanets;
         ArrayAdapter<String> adapterUserObjects;
+        ArrayAdapter<String> adapterClosestObjects;
         ArrayAdapter<String> adapterGroups;
        
         int globalPos = 0;
@@ -115,7 +121,11 @@ public class C2H extends Activity {
         mySyncClicker = new SyncClicked();
         ButtonSync.setOnClickListener(mySyncClicker);
 
-        //Globals.dScaleHeading = savedInstanceState.getDouble("ScaleHeading");
+        ButtonMakeClosest = (Button)findViewById(R.id.buttonSetClosest);
+        ButtonMakeClosest.setOnClickListener(this);
+        
+        ButtonSkyView = (Button)findViewById(R.id.buttonSkyView);
+        ButtonSkyView.setOnClickListener(this);
         
         objectName = (TextView)findViewById(R.id.TextView09);
                      
@@ -123,11 +133,13 @@ public class C2H extends Activity {
         counter.start();
        
         spinner_group= (Spinner) findViewById(R.id.Spinner02);
-        String myGroups[] = new String[4];
+        String myGroups[] = new String[5];
         myGroups[0] = "Messier";
         myGroups[1] = "Planets";
         myGroups[2] = "Stars";
         myGroups[3] = "User";
+        myGroups[4] = "Closest";
+        
        
 //        adapterGroups = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myGroups);
         adapterGroups = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, myGroups);
@@ -142,7 +154,8 @@ public class C2H extends Activity {
         myMessiers = new Messier();
         myPlanets = new Planets();
         myStars = new Stars();
-
+        myClosestObjs = new ClosestObjs();
+        
         try {
 			myObjects = new UserObjects();
 		} catch (FileNotFoundException e1) {
@@ -168,6 +181,9 @@ public class C2H extends Activity {
        
         String[] someStars = myStars.GetStrings();       
         adapterStars = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someStars);
+
+        String[] someClosestObjs = myClosestObjs.GetStrings();       
+        adapterClosestObjects = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someClosestObjs);
 
         Log.v("Debug", "Getting obj strings");
         String[] someObjs;
@@ -297,8 +313,6 @@ public class C2H extends Activity {
        
         @Override
 		public void onTick(long millisUntilFinished) {
-//         GetLocation();
-        	//Log.v("Debug", "Tick...");
         	
            Calendar now = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
            
@@ -322,29 +336,7 @@ public class C2H extends Activity {
            textScopeAltitude.setText(txt);
            txt = String.format("%.2f", Globals.dDobHeading - Globals.dDobHeadingDelta);
            textScopeAzimuth.setText(txt);
-           
-           //myStats.Add(Globals.dDobPitch);
         }
-       
-     // convert right ascension (hours, minutes) to degrees as real
-        public double ra2real( int hr, double min )
-        {
-            return 15.*(hr + min/60.);
-        }
-
-        // convert angle (deg, min) to degrees as real
-        public double dms2real( int deg, double min )
-        {
-            double rv;
-
-            if (deg < 0)
-                rv = deg - min/60.;
-            else
-                rv = deg + min/60.;
-
-            return rv;
-        }
-
        
         public void coord_to_horizon( Calendar utc, String ra_in, String dec_in, double lat_in, double lon_in )
         {
@@ -353,30 +345,13 @@ public class C2H extends Activity {
                 // dec => 24 07.0
                 // lat => 42 01.2
                 // lon => -89 06.2
-               //Log.v("Debug", "RA/Dec -> " + ra_in + ", " + dec_in);
-               
-                String delims = "h";
-                String[] ra_str = ra_in.split(delims);
-                delims = " ";
-                String[] dec_str = dec_in.split(delims);
-                //String[] lat_str = lat_in.split(delims);
-                //String[] lon_str = lon_in.split(delims);
-               
-                //if( lat_str.length<2 )
-                //        return;
-               
-                //if( lon_str.length<2 )
-                //        return;
-               
-                if( dec_str.length<2 )
-                        return;
-               
-                if( ra_str.length<2 )
-                        return;
-               
-            double ra  = ra2real ( Integer.parseInt(ra_str[0]) , Double.parseDouble(ra_str[1])  );
-            double dec = dms2real( Integer.parseInt(dec_str[0]), Double.parseDouble(dec_str[1]) );
-            double lat = lat_in;//dms2real( Integer.parseInt(lat_str[0]), Double.parseDouble(lat_str[1]) );
+
+        	CoordConverter myConverter = new CoordConverter();
+        	
+        	double ra = myConverter.RAString2Double(ra_in);
+        	double dec = myConverter.DecString2Double(dec_in);
+        	
+        	double lat = lat_in;//dms2real( Integer.parseInt(lat_str[0]), Double.parseDouble(lat_str[1]) );
             double lon = lon_in;//dms2real( Integer.parseInt(lon_str[0]), Double.parseDouble(lon_str[1]) );
 
             // compute hour angle in degrees
@@ -532,6 +507,12 @@ public class C2H extends Activity {
 	                            objectName.setText(myObjects.GetName(pos));     
                         	}
                         }
+                        
+                        if( objectSet==4 ){
+                            textRA.setText(myClosestObjs.GetRA(pos));
+                            textDEC.setText(myClosestObjs.GetDEC(pos));
+                            objectName.setText(myClosestObjs.GetName(pos));                    
+                        }
                 }
                
                 if( parent==spinner_group ){
@@ -560,6 +541,12 @@ public class C2H extends Activity {
                         	adapterUserObjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	                        spinner.setAdapter(adapterUserObjects);
 	                        objectSet = 3;
+                        }
+                        
+                        if( pos == 4 ){
+                        	adapterClosestObjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	                        spinner.setAdapter(adapterClosestObjects);
+	                        objectSet = 4;
                         }       
                 }
         }
@@ -601,5 +588,25 @@ public class C2H extends Activity {
 			}
     	 
     	}
+    @Override
+    public void onClick(View v) {
+    	
+    	switch(v.getId())
+    	{
+	    	case R.id.buttonSetClosest:
+		    	for(int i=0; i<10; i++) {
+		    		myClosestObjs.Add(myMessiers.myMessier[i]);
+		    	}
+		    	
+		        String[] someClosestObjs = myClosestObjs.GetStrings();       
+		        adapterClosestObjects = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someClosestObjs);
+		        break;
+		        
+	    	case R.id.buttonSkyView:
+	    		 setContentView(R.layout.skyview);
+	    		break;
+    	}
+    	
+    }
 }
 

@@ -27,22 +27,6 @@ public class Planets{
 	//public static double pi = 3.14159265359;
 	//public static double rads = 0.01745329252;
 	
-	public class MyDataStruct{
-		String ID;
-		String RA;
-		String DEC;
-		String Description;
-		String Magnitude;
-		
-		public MyDataStruct(String s1, String s2, String s3, String s4, String s5){
-			ID=s1; 
-			RA=s2;
-			DEC=s3;
-			Description=s4;
-			Magnitude=s5;
-		}
-	}
-	
 	public class params{
 	        double i1;
 	        double i2;
