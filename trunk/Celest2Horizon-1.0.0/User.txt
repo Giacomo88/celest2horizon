@@ -1,6 +1,0 @@
-F1,05h34.5,22 01,Crab remnant,1
-F2,21h33.5,-00 49,many faint stars,7
-F3,13h42.2,28 23,excellant globular,7
-F4,16h23.6,-26 32,beautiful star chains,6
-F5,15h18.6,02 05,fine cluster,7
-F6,17h40.1,-32 13,best at low power,6
