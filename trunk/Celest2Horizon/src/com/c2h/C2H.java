@@ -52,7 +52,7 @@ public class C2H extends Activity implements OnClickListener {
 	EditText textAltitude;
     EditText textAzimuth;
     EditText textScopeAltitude;
-    EditText textScopeAzimuth;
+    EditText textScopeAzimuth-1.0;
 
     EditText textRA;
     EditText textDEC;
