@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" android:gravity="bottom|top">
-<TextView android:text="@+id/TextView09" android:id="@+id/TextView09" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+<TextView android:id="@+id/TextView09" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hello"></TextView>
 <TableRow android:id="@+id/TableRow09" android:layout_width="wrap_content" android:layout_height="wrap_content"><Spinner android:id="@+id/Spinner02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:entries="@array/planets_array"></Spinner><Spinner android:id="@+id/Spinner01" android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
 </TableRow>
 
@@ -27,11 +27,14 @@
     <EditText android:layout_height="wrap_content" android:text="0" android:layout_width="wrap_content" android:editable="false" android:id="@+id/EditTextScopeAz"></EditText>
 </TableRow>
 <TableRow android:id="@+id/tableRow1" android:layout_height="wrap_content" android:layout_width="match_parent" android:gravity="bottom">
-    <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/buttonSync" android:text="Sync" android:layout_weight="1"></Button>
-    <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/strsetclosest" android:id="@+id/buttonSetClosest"></Button>
+    <Button android:layout_width="wrap_content" android:text="@string/buttonunsync" android:layout_height="wrap_content" android:id="@+id/buttonUnsync" android:layout_weight="1"></Button>
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sync" android:layout_weight="1" android:id="@+id/buttonSync"></Button>
 </TableRow>
 <TableRow android:id="@+id/tableRow2" android:layout_height="wrap_content" android:layout_width="match_parent" android:gravity="fill_horizontal">
-    <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:gravity="fill_horizontal" android:text="@string/strskyview" android:id="@+id/buttonSkyView"></Button>
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/strsetclosest" android:id="@+id/buttonSortHighest"></Button>
+</TableRow>
+<TableRow android:id="@+id/tableRow3" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/info" android:id="@+id/buttonInfo"></Button>
 </TableRow>
 
 

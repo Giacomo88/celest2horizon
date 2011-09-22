@@ -9,6 +9,10 @@ import android.os.Bundle;
 class MyLocationListener implements LocationListener {
 	
     public MyLocationListener(Context thisContext) {
+    	
+    	Globals.dLatitude = Globals.dPrefLatitude;
+    	Globals.dLongitude = Globals.dPrefLongitude;
+    	
     	LocationManager locMan = (LocationManager) thisContext.getSystemService(Context.LOCATION_SERVICE);
         locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, this);
     }
@@ -23,8 +27,11 @@ class MyLocationListener implements LocationListener {
 
     @Override
 	public void onLocationChanged(Location loc) {
-		Globals.dLatitude = loc.getLatitude();
-		Globals.dLongitude = loc.getLongitude();		
+    	
+    	if( Globals.bUseGPSLocation ) {
+			Globals.dLatitude = loc.getLatitude();
+			Globals.dLongitude = loc.getLongitude();
+    	}
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {

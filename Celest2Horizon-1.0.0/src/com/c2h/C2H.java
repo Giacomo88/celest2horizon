@@ -58,8 +58,8 @@ public class C2H extends Activity implements OnClickListener {
     EditText textDEC;
 
     Button ButtonSync;
-    Button ButtonMakeClosest;
-    Button ButtonSkyView;
+    Button ButtonMakeHighest;
+    Button ButtonInfoView;
     
     SyncClicked mySyncClicker;
     Spinner  spinner;
@@ -77,13 +77,12 @@ public class C2H extends Activity implements OnClickListener {
         Stars myStars;
         Planets myPlanets;
         UserObjects myObjects;
-        ClosestObjs myClosestObjs;
+        HighestObjs myHighestObjs;
         
         int     objectSet;
-        double mst_time;
        
-        double hrz_altitude, hrz_azimuth;
-        Calendar mst = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        
+        //Calendar mst = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 
 
         //MyDataStruct myPlanets[];
@@ -91,7 +90,7 @@ public class C2H extends Activity implements OnClickListener {
         ArrayAdapter<String> adapterStars;
         ArrayAdapter<String> adapterPlanets;
         ArrayAdapter<String> adapterUserObjects;
-        ArrayAdapter<String> adapterClosestObjects;
+        ArrayAdapter<String> adapterHighestObjects;
         ArrayAdapter<String> adapterGroups;
        
         int globalPos = 0;
@@ -99,6 +98,7 @@ public class C2H extends Activity implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.main);
 
         Globals.myContext = this;
@@ -117,15 +117,16 @@ public class C2H extends Activity implements OnClickListener {
         textRA = (EditText) findViewById(R.id.EditTextRA);
         textDEC = (EditText) findViewById(R.id.EditTextDEC);
 
-        ButtonSync = (Button)findViewById(R.id.buttonSync);
+        ButtonSync = (Button)findViewById(R.id.buttonSync);       
         mySyncClicker = new SyncClicked();
         ButtonSync.setOnClickListener(mySyncClicker);
 
-        ButtonMakeClosest = (Button)findViewById(R.id.buttonSetClosest);
-        ButtonMakeClosest.setOnClickListener(this);
         
-        ButtonSkyView = (Button)findViewById(R.id.buttonSkyView);
-        ButtonSkyView.setOnClickListener(this);
+        ButtonMakeHighest = (Button)findViewById(R.id.buttonSortHighest);
+        ButtonMakeHighest.setOnClickListener(this);
+        
+        ButtonInfoView = (Button)findViewById(R.id.buttonInfo);
+        ButtonInfoView.setOnClickListener(this);
         
         objectName = (TextView)findViewById(R.id.TextView09);
                      
@@ -138,9 +139,8 @@ public class C2H extends Activity implements OnClickListener {
         myGroups[1] = "Planets";
         myGroups[2] = "Stars";
         myGroups[3] = "User";
-        myGroups[4] = "Closest";
+        myGroups[4] = "Highest";
         
-       
 //        adapterGroups = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myGroups);
         adapterGroups = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, myGroups);
         adapterGroups.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -154,12 +154,12 @@ public class C2H extends Activity implements OnClickListener {
         myMessiers = new Messier();
         myPlanets = new Planets();
         myStars = new Stars();
-        myClosestObjs = new ClosestObjs();
+        myHighestObjs = new HighestObjs();
         
         try {
 			myObjects = new UserObjects();
 		} catch (FileNotFoundException e1) {
-			Log.v("Debug", "File not found");
+			Log.d("Debug", "File not found");
 			e1.printStackTrace();
 		}
         
@@ -182,10 +182,10 @@ public class C2H extends Activity implements OnClickListener {
         String[] someStars = myStars.GetStrings();       
         adapterStars = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someStars);
 
-        String[] someClosestObjs = myClosestObjs.GetStrings();       
-        adapterClosestObjects = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someClosestObjs);
+        String[] someHighestObjs = myHighestObjs.GetStrings();       
+        adapterHighestObjects = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someHighestObjs);
 
-        Log.v("Debug", "Getting obj strings");
+        Log.d("Debug", "Getting obj strings");
         String[] someObjs;
         if( myObjects != null )
         {
@@ -196,17 +196,17 @@ public class C2H extends Activity implements OnClickListener {
         	someObjs = new String[1];
         	someObjs[0] = ("No user objects defined");
         }
-	        Log.v("Debug", "Got obj strings");
+	        Log.d("Debug", "Got obj strings");
 	        if( someObjs != null )
 	        	adapterUserObjects = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someObjs);
-        
-        Log.v("Debug", "On create finished");
+	    
+        Log.d("Debug", "On create finished");
     }
 
     @Override
 	protected void onResume() {
         super.onResume();
-    	Log.v("Debugging", "C2H - On resume");
+    	Log.d("Debugging", "C2H - On resume");
     	counter.bRunning = true;
     	thisDob.onResume();
     	Globals.OnResume();
@@ -215,7 +215,7 @@ public class C2H extends Activity implements OnClickListener {
     @Override
 	protected void onPause() {
         super.onPause();
-    	Log.v("Debugging", "C2H - On pause");
+    	Log.d("Debugging", "C2H - On pause");
     	counter.bRunning = false;
     	thisDob.onPause();
     	Globals.OnPause();
@@ -242,30 +242,23 @@ public class C2H extends Activity implements OnClickListener {
 			break;
 
 		case R.id.settings:
-			Log.v("Debug", "Settings dialog - creating");
+			/*Log.v("Debug", "Settings dialog - creating");
 			SettingsDialog mySettingsBox = new SettingsDialog(this);
 			Log.v("Debug", "Settings dialog completed");
 			
 			mySettingsBox.Init();
-			mySettingsBox.show();
-			Log.v("Debug", "Settings shown");
+			mySettingsBox.show();*/
+			Log.d("Debug", "Settings shown");
+            Intent settingsActivity = new Intent(getBaseContext(), Preferences.class);
+            startActivity(settingsActivity);
+            Log.d("Debug", "Pref activity started");
+            
 			break;
 
-		case R.id.user:
-//			Log.v("Debug", "Starting file dialog");
-			//Intent intent = new Intent(/*getBaseContext()*/C2H.this, FileDialog.class);
-//			Log.v("Debug", "Starting file dialog put extra");
-			//intent.putExtra(FileDialog.START_PATH, "/sdcard");
-//			Log.v("Debug", "Starting file dialog start activity");
-			//startActivityForResult(intent, REQUEST_SAVE);
-			Log.v("Debug", "Starting file dialog done");
-			
+		case R.id.user:			
     		Intent fileIntent = new Intent(C2H.this, FileDialog.class);
-			Log.v("Debug", "FD - put extra");
 			fileIntent.putExtra(FileDialog.START_PATH, "/sdcard");
-			Log.v("Debug", "FD - start activity");
     		startActivityForResult(fileIntent, REQUEST_SAVE);
-			Log.v("Debug", "Starting file dialog done");
 			break;
 		}
 		return true;
@@ -323,110 +316,19 @@ public class C2H extends Activity implements OnClickListener {
            String strRA  = textRA.getText().toString();
            String strDEC = textDEC.getText().toString();
            
-           coord_to_horizon((Calendar)now.clone(), strRA, strDEC, Globals.dLatitude, Globals.dLongitude);
+           Globals.coord_to_horizon((Calendar)now.clone(), strRA, strDEC, Globals.dLatitude, Globals.dLongitude);
 
-           txt = String.format("%.2f", hrz_altitude);
+           txt = String.format("%.2f", Globals.hrz_altitude);
            textAltitude.setText(txt);
-           txt = String.format("%.2f", hrz_azimuth);
+           txt = String.format("%.2f", Globals.hrz_azimuth);
            textAzimuth.setText(txt);
-           Globals.dTargetHeading = hrz_azimuth;
-           Globals.dTargetPitch = hrz_altitude;
+           Globals.dTargetHeading = Globals.hrz_azimuth;
+           Globals.dTargetPitch = Globals.hrz_altitude;
            
            txt = String.format("%.2f", Globals.dDobPitch  - Globals.dDobPitchDelta);
            textScopeAltitude.setText(txt);
            txt = String.format("%.2f", Globals.dDobHeading - Globals.dDobHeadingDelta);
            textScopeAzimuth.setText(txt);
-        }
-       
-        public void coord_to_horizon( Calendar utc, String ra_in, String dec_in, double lat_in, double lon_in )
-        {
-                // inputs like
-                // ra => 3h47.0
-                // dec => 24 07.0
-                // lat => 42 01.2
-                // lon => -89 06.2
-
-        	CoordConverter myConverter = new CoordConverter();
-        	
-        	double ra = myConverter.RAString2Double(ra_in);
-        	double dec = myConverter.DecString2Double(dec_in);
-        	
-        	double lat = lat_in;//dms2real( Integer.parseInt(lat_str[0]), Double.parseDouble(lat_str[1]) );
-            double lon = lon_in;//dms2real( Integer.parseInt(lon_str[0]), Double.parseDouble(lon_str[1]) );
-
-            // compute hour angle in degrees
-            double ha = GetSiderealTime( utc, lon ) - ra;
-            if (ha < 0) ha = ha + 360;
-
-            // convert degrees to radians
-            ha  = ha*Math.PI/180;
-            dec = dec*Math.PI/180;
-            lat = lat*Math.PI/180;
-
-            // compute altitude in radians
-            double sin_alt = Math.sin(dec)*Math.sin(lat) + Math.cos(dec)*Math.cos(lat)*Math.cos(ha);
-            double alt = Math.asin(sin_alt);
-           
-            // compute azimuth in radians
-            // divide by zero error at poles or if alt = 90 deg
-            double cos_az = (Math.sin(dec) - Math.sin(alt)*Math.sin(lat))/(Math.cos(alt)*Math.cos(lat));
-            double az  = Math.acos(cos_az);
-
-            // convert radians to degrees
-            hrz_altitude = alt*180/Math.PI;
-            hrz_azimuth  = az*180/Math.PI;
-
-            // choose hemisphere
-            if (Math.sin(ha) > 0)
-                hrz_azimuth = 360 - hrz_azimuth;
-        }
-       
-        public double GetSiderealTime(Calendar now, double longitude){
-               
-                mst = now;
-               
-            int year   = now.get(Calendar.YEAR);
-            int month  = now.get(Calendar.MONTH)+1;
-            int day    = now.get(Calendar.DAY_OF_MONTH);
-            int hour   = now.get(Calendar.HOUR_OF_DAY);
-            int minute = now.get(Calendar.MINUTE);
-            int second = now.get(Calendar.SECOND);
-            
-            if ((month == 1)||(month == 2))
-            {
-                year  = year - 1;
-                month = month + 12;
-            }
-
-            double a = Math.floor(year/100);
-            double b = 2 - a + Math.floor(a/4);
-            double c = Math.floor(365.25*year);
-            double d = Math.floor(30.6001*(month + 1));
-
-            // days since J2000.0
-            double jd = b + c + d - 730550.5 + day + (hour + minute/60.0 + second/3600.0)/24.0;
-           
-            // julian centuries since J2000.0
-            double jt = jd/36525.0;
-
-            // the mean sidereal time in degrees
-            mst_time = 280.46061837 + 360.98564736629*jd + 0.000387933*jt*jt - jt*jt*jt/38710000 + longitude;
-
-            // in degrees modulo 360.0
-            if (mst_time > 0.0)
-                while (mst_time > 360.0) mst_time = mst_time - 360.0;
-            else
-                while (mst_time < 0.0)   mst_time = mst_time + 360.0;
-
-            double mst2 = mst_time * 23.93333 / 360.;
-            mst.set(Calendar.YEAR, 1962);
-            mst.set(Calendar.HOUR_OF_DAY, (int)mst2);
-            mst2 = (mst2 - (int)mst2)*60;
-            mst.set(Calendar.MINUTE, (int)mst2);
-            mst2 = (mst2 - (int)mst2)*60;            
-            mst.set(Calendar.SECOND, (int)mst2);
-           
-                return mst_time;
         }
     };
        
@@ -509,9 +411,9 @@ public class C2H extends Activity implements OnClickListener {
                         }
                         
                         if( objectSet==4 ){
-                            textRA.setText(myClosestObjs.GetRA(pos));
-                            textDEC.setText(myClosestObjs.GetDEC(pos));
-                            objectName.setText(myClosestObjs.GetName(pos));                    
+                            textRA.setText(myHighestObjs.GetRA(pos));
+                            textDEC.setText(myHighestObjs.GetDEC(pos));
+                            objectName.setText(myHighestObjs.GetName(pos));                    
                         }
                 }
                
@@ -544,8 +446,8 @@ public class C2H extends Activity implements OnClickListener {
                         }
                         
                         if( pos == 4 ){
-                        	adapterClosestObjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	                        spinner.setAdapter(adapterClosestObjects);
+                        	adapterHighestObjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	                        spinner.setAdapter(adapterHighestObjects);
 	                        objectSet = 4;
                         }       
                 }
@@ -563,48 +465,49 @@ public class C2H extends Activity implements OnClickListener {
         }
     }
     
-    public class AboutDialog extends Dialog implements android.view.View.OnClickListener {
-    	    Button okButton;
-    	 
-    	    public AboutDialog(Context context) {
-    	        super(context);
-    	        /** 'Window.FEATURE_NO_TITLE' - Used to hide the title */
-    	        requestWindowFeature(Window.FEATURE_NO_TITLE);
-    	        /** Design the dialog in main.xml file */
-    	        setContentView(R.layout.about);
-    	        okButton = (Button) findViewById(R.id.OkButton);
-    	        okButton.setOnClickListener(this);
-    	    }
-    	 
-    	    public void onClick(View v) {
-    	        /** When OK Button is clicked, dismiss the dialog */
-    	        if (v == okButton)
-    	            dismiss();
-    	    }
-
-			public void onClick(DialogInterface arg0, int arg1) {
-				// TODO Auto-generated method stub
-				
-			}
-    	 
-    	}
     @Override
     public void onClick(View v) {
     	
     	switch(v.getId())
     	{
-	    	case R.id.buttonSetClosest:
-		    	for(int i=0; i<10; i++) {
-		    		myClosestObjs.Add(myMessiers.myMessier[i]);
-		    	}
-		    	
-		        String[] someClosestObjs = myClosestObjs.GetStrings();       
-		        adapterClosestObjects = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someClosestObjs);
+	    	case R.id.buttonSortHighest:
+	    		
+	    		myHighestObjs = new HighestObjs();
+	    		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+	    		//"C1","0h0.0","0 0","---","0"
+	    		for(int i=0; i<110; i++)
+	    		{
+	    			//String strLabel = "Sort"+Integer.toString(i);
+	    			//String strAz = "0h"+Integer.toString(i);
+		    		//MyDataStruct ds = new MyDataStruct(strLabel, strAz, "0 0", "+++", "1");
+		    		
+	    			Globals.coord_to_horizon((Calendar)now.clone(), 
+		    						  myMessiers.myMessier[i].RA, myMessiers.myMessier[i].DEC,
+		    						  Globals.dLatitude, Globals.dLongitude);
+	    			
+		    		myMessiers.myMessier[i].dAltitude = Globals.hrz_altitude;
+		    		myMessiers.myMessier[i].dAzimuth = Globals.hrz_azimuth;
+
+		    		myHighestObjs.Add(myMessiers.myMessier[i]);
+	    		}
+	    		
+	    		myHighestObjs.Sort();
+	    		
+		        String[] someHighestObjs = myHighestObjs.GetStrings();    
+
+		        adapterHighestObjects = new ArrayAdapter<String>(this, R.layout.myspinnerlayout, someHighestObjs);
+		        
+            	adapterHighestObjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapterHighestObjects);
+                objectSet = 4;
+                
 		        break;
 		        
-	    	case R.id.buttonSkyView:
-	    		 setContentView(R.layout.skyview);
-	    		break;
+			case R.id.buttonInfo:
+				Log.d("Debug", "Showing info dialog");
+				InfoDialog myInfoBox = new InfoDialog(this);
+				myInfoBox.show();
+				break;	
     	}
     	
     }

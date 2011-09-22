@@ -6,6 +6,9 @@ public class MyDataStruct {
 	String DEC;
 	String Description;
 	String Magnitude;
+	
+	double dAzimuth;
+	double dAltitude;
 		
 	public MyDataStruct(String s1, String s2, String s3, String s4, String s5){
 		ID=s1; 
