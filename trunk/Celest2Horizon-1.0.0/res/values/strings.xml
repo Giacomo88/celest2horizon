@@ -28,6 +28,8 @@
     <string name="create">Create</string>
     <string name="no_data">No Data</string>
 	<color name="gray">#ffff0000</color>
-	<string name="strsetclosest">Set Closest</string>
+	<string name="strsetclosest">Sort Highest</string>
 	<string name="strskyview">Sky View</string>
+	<string name="buttonunsync">UnSync</string>
+	<string name="info">Info</string>
 </resources>

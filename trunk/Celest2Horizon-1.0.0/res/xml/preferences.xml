@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  
+
+    
+    <EditTextPreference
+        android:summary="User obj path"
+        android:title="User Object Path"
+        android:key="UserObjectPath" />
+       
+    <PreferenceCategory android:summary="Filter settings">
+           
+		<EditTextPreference
+		        android:summary="Low pass filter for Azimuth"
+		        android:title="Azimuth filter param"
+		        android:key="ScaleHeading" />
+		        
+		<EditTextPreference
+		        android:summary="Low pass filter for altitude"
+		        android:title="Altitude filter param"
+		        android:key="ScalePitch" />
+	
+	</PreferenceCategory>     
+	  
+    <PreferenceCategory android:summary="Location settings">
+	    
+	    <CheckBoxPreference
+        android:title="Use GPS Position"
+        android:defaultValue="true"
+        android:summary="This preference can be true or false"
+        android:key="UseGPSLocation" />
+        
+		<EditTextPreference
+		        android:summary="User Latitude"
+		        android:title="User Latitude"
+		        android:key="Latitude" />
+		        
+		<EditTextPreference
+		        android:summary="User Longitude"
+		        android:title="User Longitude"
+		        android:key="Longitude" />
+	
+	</PreferenceCategory>
+
+</PreferenceScreen>
