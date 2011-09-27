@@ -101,7 +101,7 @@ public class Stars {
 	String[] GetStrings()
 	{
 		
-        Log.v("Debug", "MyStars: Getting strings");
+        Log.d("Debug", "MyStars: Getting strings");
 		String ret[] = new String[70];
 		for(int i=0; i<70; i++)
 			ret[i] = myStars[i].ID+" ("+myStars[i].Magnitude+")";

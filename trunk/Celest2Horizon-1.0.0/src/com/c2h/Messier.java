@@ -141,12 +141,12 @@ public class Messier{
 	String[] GetStrings()
 	{
 		
-        Log.v("Debug", "MyMessiers: Getting strings");
+        Log.d("Debug", "MyMessiers: Getting strings");
 		String ret[] = new String[110];
 		for(int i=0; i<110; i++)
 			ret[i] = myMessier[i].ID + " : " + myMessier[i].Description + " (" + myMessier[i].Magnitude + ")";
 		
-        Log.v("Debug", "MyMessiers: returning strings");
+        Log.d("Debug", "MyMessiers: returning strings");
 
 		return(ret);
 	}
@@ -154,12 +154,12 @@ public class Messier{
 	String[] GetRevStrings()
 	{
 		
-        Log.v("Debug", "MyMessiers: Getting strings");
+        Log.d("Debug", "MyMessiers: Getting strings");
 		String ret[] = new String[110];
 		for(int i=109; i>=0; i--)
 			ret[i] = myMessier[i].ID + " (" + myMessier[i].Magnitude + ")";
 		
-        Log.v("Debug", "MyMessiers: returning strings");
+        Log.d("Debug", "MyMessiers: returning strings");
 
 		return(ret);
 	}

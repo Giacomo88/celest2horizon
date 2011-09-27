@@ -12,7 +12,7 @@
         android:textColor="#fff" android:layout_width="wrap_content"
         android:layout_margin="7dip" android:gravity="center" android:layout_gravity="center_horizontal" android:text="Celestial to Horizon coord converter"></TextView>
     
-    <TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ver 1.10"></TextView>
+    <TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ver 1.11"></TextView>
     <TextView android:id="@+id/textView3" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
     <TextView android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="File Dialog by"></TextView>
     <TextView android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="http://code.google.com/p/android-file-dialog/" android:layout_gravity="center_horizontal" android:gravity="center"></TextView>
