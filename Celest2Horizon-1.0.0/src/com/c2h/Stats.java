@@ -28,7 +28,7 @@ public class Stats {
 	
 	public void Add(double X) {
 		dValues[nIndex++] = X;
-		Log.v("Stat", "Adding " + X);
+		Log.d("Stat", "Adding " + X);
 		if( nIndex == nCount ) {
 			double dSum = 0;
 			for(int i=0; i<nCount; i++ )
@@ -37,7 +37,7 @@ public class Stats {
 			dAverage = dSum / (double)nCount;
 			dSigma = 0;
 			
-			Log.v("Stat", "Avg " + dAverage + " Sum " + dSum);
+			Log.d("Stat", "Avg " + dAverage + " Sum " + dSum);
 			for(int i=0; i<nCount; i++) {
 				dSigma += ((dValues[i] - dAverage)*(dValues[i] - dAverage));
 			}

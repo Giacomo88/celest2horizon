@@ -39,12 +39,12 @@ public class DobOrientation implements SensorEventListener {
 			
 	        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 	        mSensorManager.registerListener(this, mMagneticField, SensorManager.SENSOR_DELAY_NORMAL);
-	       // Log.v("Debug", "Orientation created");
+	       // Log.d("Debug", "Orientation created");
 	    }
 
 	    public void onResume() {
 	        //super.onResume();
-	    	//Log.v("Debugging", "DOB - On resume");
+	    	//Log.d("Debugging", "DOB - On resume");
 
 	        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 	        mSensorManager.registerListener(this, mMagneticField, SensorManager.SENSOR_DELAY_NORMAL);
@@ -52,7 +52,7 @@ public class DobOrientation implements SensorEventListener {
 
 	    public void onPause() {
 	       // super.onPause();
-	    	//Log.v("Debugging", "DOB - On pause");
+	    	//Log.d("Debugging", "DOB - On pause");
 	        mSensorManager.unregisterListener(this);
 
 	    }
@@ -62,7 +62,7 @@ public class DobOrientation implements SensorEventListener {
 
 	    public void onSensorChanged(SensorEvent event) {
 
-	    	//Log.v("Debug", "Orientation changed");
+	    	//Log.d("Debug", "Orientation changed");
 			switch (event.sensor.getType()) {
 	        case Sensor.TYPE_ACCELEROMETER:
 	            accelerometerValues = event.values.clone();
@@ -81,7 +81,7 @@ public class DobOrientation implements SensorEventListener {
 	        float[] I = new float[16];
 
 	        if( !SensorManager.getRotationMatrix(R, I, accelerometerValues, geomagneticMatrix) ) {
-	        	//Log.v("Debug", "Get rotation failed");
+	        	//Log.d("Debug", "Get rotation failed");
 	        	return;
 	        }
 

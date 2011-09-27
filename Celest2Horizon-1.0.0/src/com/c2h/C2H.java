@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.os.CountDownTimer;
 import java.io.FileNotFoundException;
 import java.util.*;
+
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
@@ -47,7 +48,7 @@ import com.lamerman.FileDialog;
 
 public class C2H extends Activity implements OnClickListener {
 
-	public static final int REQUEST_SAVE = 0;
+	private static final int REQUEST_SAVE = 0;
 	private static final int REQUEST_LOAD = 0;
 	EditText textAltitude;
     EditText textAzimuth;
@@ -64,6 +65,8 @@ public class C2H extends Activity implements OnClickListener {
     SyncClicked mySyncClicker;
     Spinner  spinner;
     Spinner  spinner_group;
+    int objectSet;
+
     TextView objectName;
 
     MyLocationListener thisLocation;
@@ -77,10 +80,7 @@ public class C2H extends Activity implements OnClickListener {
         Stars myStars;
         Planets myPlanets;
         UserObjects myObjects;
-        HighestObjs myHighestObjs;
-        
-        int     objectSet;
-       
+        NearestObjs myHighestObjs;
         
         //Calendar mst = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 
@@ -154,7 +154,8 @@ public class C2H extends Activity implements OnClickListener {
         myMessiers = new Messier();
         myPlanets = new Planets();
         myStars = new Stars();
-        myHighestObjs = new HighestObjs();
+        myHighestObjs = new NearestObjs();
+        myHighestObjs.SortHighest();
         
         try {
 			myObjects = new UserObjects();
@@ -162,8 +163,6 @@ public class C2H extends Activity implements OnClickListener {
 			Log.d("Debug", "File not found");
 			e1.printStackTrace();
 		}
-        
-        objectSet = 0;
        
         String[] someStrings;//= new String[110];
        
@@ -204,9 +203,29 @@ public class C2H extends Activity implements OnClickListener {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("objectSet", objectSet);
+        outState.putInt("globalPos", globalPos);
+        
+        super.onSaveInstanceState(outState);
+    	Log.d("Debug", "On save instance -> "+globalPos);
+   }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    	objectSet = savedInstanceState.getInt("objectSet");
+    	globalPos = savedInstanceState.getInt("globalPos");
+
+    	spinner.setSelection(globalPos);
+    	
+        super.onRestoreInstanceState(savedInstanceState);
+    	Log.d("Debug", "On restore instance -> "+globalPos);
+    }
+    
+    @Override
 	protected void onResume() {
         super.onResume();
-    	Log.d("Debugging", "C2H - On resume");
+    	Log.d("Debug", "C2H - On resume");
     	counter.bRunning = true;
     	thisDob.onResume();
     	Globals.OnResume();
@@ -215,7 +234,7 @@ public class C2H extends Activity implements OnClickListener {
     @Override
 	protected void onPause() {
         super.onPause();
-    	Log.d("Debugging", "C2H - On pause");
+    	Log.d("Debug", "C2H - On pause");
     	counter.bRunning = false;
     	thisDob.onPause();
     	Globals.OnPause();
@@ -233,7 +252,7 @@ public class C2H extends Activity implements OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		String str = String.format("Menu %d", item.getItemId());
-		Log.v("Debug", str);
+		Log.d("Debug", str);
 		switch (item.getItemId()) {
 			
 		case R.id.About:
@@ -242,9 +261,9 @@ public class C2H extends Activity implements OnClickListener {
 			break;
 
 		case R.id.settings:
-			/*Log.v("Debug", "Settings dialog - creating");
+			/*Log.d("Debug", "Settings dialog - creating");
 			SettingsDialog mySettingsBox = new SettingsDialog(this);
-			Log.v("Debug", "Settings dialog completed");
+			Log.d("Debug", "Settings dialog completed");
 			
 			mySettingsBox.Init();
 			mySettingsBox.show();*/
@@ -270,17 +289,17 @@ public class C2H extends Activity implements OnClickListener {
             if (resultCode == Activity.RESULT_OK) {
 
                     if (requestCode == REQUEST_SAVE) {
-                            Log.v("FD", "Saving...");
+                            Log.d("FD", "Saving...");
                     } else if (requestCode == REQUEST_LOAD) {
-                    	Log.v("FD", "Loading...");
+                    	Log.d("FD", "Loading...");
                     }
                     
                     String filePath = data.getStringExtra(FileDialog.RESULT_PATH);
-                    Log.v("FD", "File "+filePath);
+                    Log.d("FD", "File "+filePath);
                     Globals.strUserPath = filePath;
                     
             } else if (resultCode == Activity.RESULT_CANCELED) {
-            	Log.v("FD", "Request cancelled");
+            	Log.d("FD", "Request cancelled");
                     //Logger.getLogger(AccelerationChartRun.class.getName()).log(
                     //                Level.WARNING, "file not selected");
             }
@@ -297,15 +316,15 @@ public class C2H extends Activity implements OnClickListener {
         }
 
         @Override
-		public void onFinish() {
+    	public void onFinish() {
         	if( bRunning ) {
-            	Log.v("Debug", "restarting clock");
+            	Log.d("Debug", "restarting clock");
         		start();
         	}
         }
        
         @Override
-		public void onTick(long millisUntilFinished) {
+    	public void onTick(long millisUntilFinished) {
         	
            Calendar now = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
            
@@ -331,6 +350,7 @@ public class C2H extends Activity implements OnClickListener {
            textScopeAzimuth.setText(txt);
         }
     };
+
        
     public class myOnItemSelectedListener implements OnItemSelectedListener {
 
@@ -368,18 +388,18 @@ public class C2H extends Activity implements OnClickListener {
          * @param row - the 0-based row number of the selection in the View
          */
         public void onItemSelected(AdapterView<?> parent, View v, int pos, long row) {
-        	
+
         	String str;
                 if( parent==spinner ){
                 	str = String.format("Parent = (spinner), Objectset (%d), pos (%d), row *%d)", objectSet, pos, row);
-                	Log.v("Debug", str);
+                	Log.d("Debug", str);
                 	globalPos = pos;
                         if( objectSet==0 ){
                                 textRA.setText(myMessiers.GetRA(pos));
                                 textDEC.setText(myMessiers.GetDEC(pos));
                                 objectName.setText(myMessiers.GetName(pos));                    
                         }
-                        
+
                         if( objectSet==1 ){
                         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
                         myPlanets.UpdateRADEC((Calendar)now.clone(), pos);
@@ -388,13 +408,13 @@ public class C2H extends Activity implements OnClickListener {
                                 textDEC.setText(myPlanets.GetDEC(pos));
                                 objectName.setText(myPlanets.GetName(pos));
                         }
-                        
+
                         if( objectSet==2 ){
                             textRA.setText(myStars.GetRA(pos));
                             textDEC.setText(myStars.GetDEC(pos));
-                            objectName.setText(myStars.GetName(pos));                    
+                            objectName.setText(myStars.GetName(pos));
                         }
-                        
+
                         if( objectSet==3 ){
                         	if( myObjects == null )
                         	{
@@ -409,17 +429,17 @@ public class C2H extends Activity implements OnClickListener {
 	                            objectName.setText(myObjects.GetName(pos));     
                         	}
                         }
-                        
+
                         if( objectSet==4 ){
                             textRA.setText(myHighestObjs.GetRA(pos));
                             textDEC.setText(myHighestObjs.GetDEC(pos));
                             objectName.setText(myHighestObjs.GetName(pos));                    
                         }
                 }
-               
+
                 if( parent==spinner_group ){
                 	str = String.format("Parent = (spinner_group), Objectset (%d), pos (%d), row *%d)", objectSet, pos, row);
-                	Log.v("Debug", str);
+                	Log.d("Debug", str);
 
                         if( pos == 0 ){
 	                        adapterMessier.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -449,7 +469,9 @@ public class C2H extends Activity implements OnClickListener {
                         	adapterHighestObjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	                        spinner.setAdapter(adapterHighestObjects);
 	                        objectSet = 4;
-                        }       
+                        }
+                        spinner.setSelection(globalPos, true);
+                        
                 }
         }
 
@@ -472,7 +494,7 @@ public class C2H extends Activity implements OnClickListener {
     	{
 	    	case R.id.buttonSortHighest:
 	    		
-	    		myHighestObjs = new HighestObjs();
+	    		myHighestObjs = new NearestObjs();
 	    		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 	    		//"C1","0h0.0","0 0","---","0"
 	    		for(int i=0; i<110; i++)
@@ -491,7 +513,7 @@ public class C2H extends Activity implements OnClickListener {
 		    		myHighestObjs.Add(myMessiers.myMessier[i]);
 	    		}
 	    		
-	    		myHighestObjs.Sort();
+	    		myHighestObjs.SortHighest();
 	    		
 		        String[] someHighestObjs = myHighestObjs.GetStrings();    
 

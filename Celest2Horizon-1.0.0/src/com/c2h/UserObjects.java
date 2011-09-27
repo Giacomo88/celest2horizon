@@ -17,25 +17,25 @@ public class UserObjects {
 
 		Globals.GetPath();
 		String strFile = Globals.strUserPath;
-		Log.v("Debug", "Creating userobjects from ("+strFile+")");
+		Log.d("Debug", "Creating userobjects from ("+strFile+")");
 		
 		//create BufferedReader to read csv file
 		BufferedReader br = new BufferedReader( new FileReader(strFile));
 		String strLine = "";
-		Log.v("Debug", "File opened ("+strFile+")");
+		Log.d("Debug", "File opened ("+strFile+")");
 		NumberLines = 0;		
 		//read comma separated file line by line
 		try {
-			//Log.v("Debug", "Reading line " + NumberLines);
+			//Log.d("Debug", "Reading line " + NumberLines);
 			while( (strLine = br.readLine()) != null) {
 				NumberLines++;
-				//Log.v("Debug", "Parsing line");
+				//Log.d("Debug", "Parsing line");
 				String entries[] = strLine.split(",", 5);
-				//Log.v("Debug", "Creating user object");
+				//Log.d("Debug", "Creating user object");
 				MyObjects[0] = new MyDataStruct(entries);
 			}
 		} catch (IOException e) {
-			Log.v("Debug", "Error (1) reading user file");
+			Log.d("Debug", "Error (1) reading user file");
 			e.printStackTrace();
 		}
 		
@@ -44,7 +44,7 @@ public class UserObjects {
 		try {
 			br.close();
 		} catch (IOException e1) {
-			Log.v("Debug", "Error closing user file");
+			Log.d("Debug", "Error closing user file");
 			e1.printStackTrace();
 		}
 		br = new BufferedReader( new FileReader(strFile));
@@ -55,19 +55,19 @@ public class UserObjects {
 				String entries[] = strLine.split(",", 5);
 				
 				MyObjects[NumberLines] = new MyDataStruct(entries);
-				/*Log.v("Debug", "ID->"+MyObjects[lineNumber].ID);
-				Log.v("Debug", "RA->"+MyObjects[lineNumber].RA);
-				Log.v("Debug", "Dec->"+MyObjects[lineNumber].DEC);
-				Log.v("Debug", "Desc->"+MyObjects[lineNumber].Description);
-				Log.v("Debug", "Mag->"+MyObjects[lineNumber].Magnitude);*/
+				/*Log.d("Debug", "ID->"+MyObjects[lineNumber].ID);
+				Log.d("Debug", "RA->"+MyObjects[lineNumber].RA);
+				Log.d("Debug", "Dec->"+MyObjects[lineNumber].DEC);
+				Log.d("Debug", "Desc->"+MyObjects[lineNumber].Description);
+				Log.d("Debug", "Mag->"+MyObjects[lineNumber].Magnitude);*/
 				NumberLines++;
 			}
 			
 		} catch (IOException e) {
-			Log.v("Debug", "Error (2) reading user file");
+			Log.d("Debug", "Error (2) reading user file");
 			e.printStackTrace();
 		}
-		Log.v("Debug", "MyObect count " + NumberLines);
+		Log.d("Debug", "MyObect count " + NumberLines);
 	}
 	
 	private static Object resizeArray (Object oldArray, int newSize) {
@@ -82,7 +82,7 @@ public class UserObjects {
 	}
 	
 	public String[] GetStrings() {
-        Log.v("Debug", "My Objects: Getting strings");
+        Log.d("Debug", "My Objects: Getting strings");
         if( MyObjects.length < 1 )
         	return null;
         

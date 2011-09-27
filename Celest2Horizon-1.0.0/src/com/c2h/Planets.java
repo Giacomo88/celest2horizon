@@ -187,7 +187,7 @@ public class Planets{
 	    double UT=now.get(Calendar.HOUR_OF_DAY) + (now.get(Calendar.MINUTE)/60.);
 	    
 	    String deb = String.format("Update RADEC - Date->%04d - %02d - %02d - %f", y,m,D,UT);
-	    Log.v("Debug", deb);
+	    Log.d("Debug", deb);
 	    int d1 = (m+9)/12 + y;
 	    int d2 = 7*d1 / 4;
 	    int d3 = 275*m/9;
@@ -207,7 +207,7 @@ public class Planets{
 	    //for(int index = 0; index< 9; index++)
 	    //{
 	    	deb = String.format("Making planet %d", index);
-	        Log.v("C2HDebugging", deb);
+	        Log.d("C2HDebugging", deb);
 		    ip = Math.toRadians(planets[index].i1 + planets[index].i2 * d);
 		    op = Math.toRadians(planets[index].o1 + planets[index].o2 * d);
 		    pp = Math.toRadians(planets[index].p1 + planets[index].p2 * d);
@@ -215,11 +215,11 @@ public class Planets{
 		    ep = planets[index].e1 + planets[index].e2 * d;
 		    lp = FNrange(Math.toRadians(planets[index].l1 + planets[index].l2 * d));
 	    
-		    Log.v("C2HDebugging", "Calling FNrange");
+		    Log.d("C2HDebugging", "Calling FNrange");
 		    double me = FNrange(le - pe);
-		    Log.v("C2HDebugging", "Calling FNkep");
+		    Log.d("C2HDebugging", "Calling FNkep");
 		    double ve = FNkep(me, ee, 8/*12*/);
-		    Log.v("C2HDebugging", "Calling cos");
+		    Log.d("C2HDebugging", "Calling cos");
 
 		    double re = ae * (1 - ee * ee) / (1 + ee * Math.cos(ve));
 		    double xe = re * Math.cos(ve + pe);
@@ -228,10 +228,10 @@ public class Planets{
 		    //
 		    //   and position of planet in its orbit
 		    //
-		    Log.v("C2HDebugging", "Calling FNrange 2");
+		    Log.d("C2HDebugging", "Calling FNrange 2");
 
 		    double mp = FNrange(lp - pp);
-		    Log.v("C2HDebugging", "Calling FNkep 2 2");
+		    Log.d("C2HDebugging", "Calling FNkep 2 2");
 		    
 		    double vp = FNkep(mp, ep, 8/*12*/);
 		    double rp = ap * (1 - ep * ep) / (1 + ep * Math.cos(vp));
@@ -257,21 +257,21 @@ public class Planets{
 		    //
 		    //   find the RA and DEC from the rectangular equatorial coords
 		    //
-		    Log.v("C2HDebugging", "Calling atan2");
+		    Log.d("C2HDebugging", "Calling atan2");
 
 		    double ra = Math.atan2(yeq, xeq);
 		    double dec = Math.atan(zeq / Math.sqrt(xeq * xeq + yeq * yeq));
-		    Log.v("C2HDebugging", "Calling sqrt");
+		    Log.d("C2HDebugging", "Calling sqrt");
 		    double rvec = Math.sqrt(zeq*zeq + xeq*xeq + yeq*yeq );
 		    //printf("RA->%f\tDec->%f\n", ra*12/pi, dec*180/pi);
-		    Log.v("C2HDebugging", "correcting ra");
+		    Log.d("C2HDebugging", "correcting ra");
 		    ra *= 12 / Math.PI;
 		    if( ra<0 )
 		        ra += 24.;
 	
 		    int raHour = (int)ra;
 		    double raMin = (ra - raHour)*60;
-		    Log.v("C2HDebugging", "discreting dec");
+		    Log.d("C2HDebugging", "discreting dec");
 		    dec *= 180/Math.PI;
 		    int decDeg = (int)dec;
 		    double decMin = Math.abs((dec - decDeg)*60);
@@ -281,7 +281,7 @@ public class Planets{
 	        if( dec<0 && myPlanets[index].DEC.charAt(0) != '-' )
 	        	 myPlanets[index].DEC = "-" + myPlanets[index].DEC;
 	        
-	        Log.v("C2HDebugging", myPlanets[index].RA + " " + myPlanets[index].DEC + " " + Double.toString(rvec));
+	        Log.d("C2HDebugging", myPlanets[index].RA + " " + myPlanets[index].DEC + " " + Double.toString(rvec));
 	       
 	    //}
 	}

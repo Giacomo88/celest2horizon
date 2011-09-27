@@ -2,11 +2,11 @@ package com.c2h;
 
 import android.util.Log;
 
-public class HighestObjs {
+public class NearestObjs {
 	
 	MyDataStruct myClosestObjs[];
 	
-	public HighestObjs(){
+	public NearestObjs(){
 		myClosestObjs = new MyDataStruct[110];
 
 		for(int i=0; i<110; i++)
@@ -53,11 +53,26 @@ public class HighestObjs {
 		return -1;
 	}
 	
-	void Sort() {
+	void SortHighest() {
 		int i, j;
 		MyDataStruct t;
 		  for(i = 0; i < 110; i++) {
 			  for(j = 1; j < (110-i); j++){
+				  if(myClosestObjs[j-1].dAltitude < myClosestObjs[j].dAltitude ) {
+					  t = myClosestObjs[j-1];
+					  myClosestObjs[j-1]=myClosestObjs[j];
+					  myClosestObjs[j]=t;
+				  }
+			  }
+		  }
+	}	
+	
+	void SortNearest() {
+		int i, j;
+		MyDataStruct t;
+		  for(i = 0; i < 110; i++) {
+			  for(j = 1; j < (110-i); j++){
+
 				  if(myClosestObjs[j-1].dAltitude < myClosestObjs[j].dAltitude ) {
 					  t = myClosestObjs[j-1];
 					  myClosestObjs[j-1]=myClosestObjs[j];

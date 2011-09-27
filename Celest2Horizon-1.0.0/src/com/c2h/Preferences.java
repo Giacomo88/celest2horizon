@@ -73,7 +73,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
                         
                         SetSummaries();
             } else if (resultCode == Activity.RESULT_CANCELED) {
-            	Log.v("FD", "Request cancelled");
+            	Log.d("FD", "Request cancelled");
             }
     }
     
