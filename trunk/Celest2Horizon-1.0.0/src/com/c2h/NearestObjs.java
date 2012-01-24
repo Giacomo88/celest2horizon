@@ -1,7 +1,5 @@
 package com.c2h;
 
-import android.util.Log;
-
 public class NearestObjs {
 	
 	MyDataStruct myClosestObjs[];

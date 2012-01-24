@@ -2,10 +2,7 @@ package com.c2h;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 
 public class InfoDialog extends Dialog {

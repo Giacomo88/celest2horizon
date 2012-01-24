@@ -34,14 +34,14 @@ public class Stats {
 			for(int i=0; i<nCount; i++ )
 				dSum += dValues[i];
 			
-			dAverage = dSum / (double)nCount;
+			dAverage = dSum / nCount;
 			dSigma = 0;
 			
 			Log.d("Stat", "Avg " + dAverage + " Sum " + dSum);
 			for(int i=0; i<nCount; i++) {
 				dSigma += ((dValues[i] - dAverage)*(dValues[i] - dAverage));
 			}
-			dSigma = Math.sqrt(dSigma / (double)nCount);
+			dSigma = Math.sqrt(dSigma / nCount);
 			
 			Globals.dAverage = dAverage;
 			Globals.dSigma = dSigma;
