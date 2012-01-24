@@ -58,7 +58,8 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         return false;
 	}
 	
-    public synchronized void onActivityResult(final int requestCode,
+    @Override
+	public synchronized void onActivityResult(final int requestCode,
             int resultCode, final Intent data) {
     	
             if (resultCode == Activity.RESULT_OK) {

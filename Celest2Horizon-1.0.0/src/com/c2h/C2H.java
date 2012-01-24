@@ -18,14 +18,12 @@
 package com.c2h;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Spinner;
 import android.widget.Button;
@@ -38,8 +36,6 @@ import java.util.*;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import java.util.Calendar;
 
@@ -283,7 +279,8 @@ public class C2H extends Activity implements OnClickListener {
 		return true;
 	}
   
-    public synchronized void onActivityResult(final int requestCode,
+    @Override
+	public synchronized void onActivityResult(final int requestCode,
             int resultCode, final Intent data) {
 
             if (resultCode == Activity.RESULT_OK) {
