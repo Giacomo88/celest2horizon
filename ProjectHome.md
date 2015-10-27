@@ -1,0 +1,1 @@
+Droid app that takes GPS location, time and RA / Dec and continuously updates corresponding azimuth / elevations.  Messier objects and planet RA / Dec can be chosen from drop down lists.  Accelerometers and magnetic compass show telescopes current orientation.
